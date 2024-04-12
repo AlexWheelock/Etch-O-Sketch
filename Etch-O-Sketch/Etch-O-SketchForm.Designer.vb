@@ -170,11 +170,13 @@ Partial Class EtchOSketchForm
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Red
+        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.ClientSize = New System.Drawing.Size(592, 460)
         Me.Controls.Add(Me.MainPictureBox)
         Me.Controls.Add(Me.ButtonGroupBox)
         Me.Controls.Add(Me.TopMenuStrip)
         Me.Name = "EtchOSketchForm"
+        Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Etch-O-Sketch"
         Me.ButtonGroupBox.ResumeLayout(False)
         Me.TopMenuStrip.ResumeLayout(False)

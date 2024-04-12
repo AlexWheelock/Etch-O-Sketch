@@ -1,11 +1,12 @@
-﻿'Alex Wheelock
+﻿Option Explicit On
+Option Strict On
+'Alex Wheelock
 'RCET 0265
 'Spring 2024
 'Etch-O-Sketch
 'https://github.com/AlexWheelock/Etch-O-Sketch.git
 
-Option Explicit On
-Option Strict On
+Imports System.Media
 
 Public Class EtchOSketchForm
 
@@ -17,7 +18,7 @@ Public Class EtchOSketchForm
         Static currentColor As Color
 
         If update Then
-            currentcolor = newColor
+            currentColor = newColor
         End If
 
         Return currentColor
@@ -41,6 +42,53 @@ Public Class EtchOSketchForm
     End Sub
 
     Sub DrawWaveforms()
+
+    End Sub
+
+    Sub ClearDrawing()
+        Dim currentX As Integer = Me.DesktopLocation.X
+        Dim currentY As Integer = Me.DesktopLocation.Y
+
+        'My.Computer.Audio.Play("clearsound.mp3")
+
+        For i = 0 To 100
+            currentX += 1
+            currentY += 1
+            Me.SetDesktopLocation(currentX, currentY)
+        Next
+
+        For i = 0 To 200
+            currentX -= 1
+            currentY -= 1
+            Me.SetDesktopLocation(currentX, currentY)
+        Next
+
+        For i = 0 To 200
+            currentX += 1
+            currentY += 1
+            Me.SetDesktopLocation(currentX, currentY)
+        Next
+
+        For i = 0 To 200
+            currentX -= 1
+            currentY -= 1
+            Me.SetDesktopLocation(currentX, currentY)
+        Next
+
+        For i = 0 To 200
+            currentX += 1
+            currentY += 1
+            Me.SetDesktopLocation(currentX, currentY)
+        Next
+
+        For i = 0 To 100
+            currentX -= 1
+            currentY -= 1
+            Me.SetDesktopLocation(currentX, currentY)
+        Next
+
+        MainPictureBox.Refresh()
+        SetDefaults()
 
     End Sub
 
@@ -74,8 +122,7 @@ Public Class EtchOSketchForm
     End Sub
 
     Private Sub ClearButton_Click(sender As Object, e As EventArgs) Handles ClearButton.Click
-        MainPictureBox.Refresh()
-        SetDefaults()
+        ClearDrawing()
     End Sub
 
     Private Sub ExitButton_Click(sender As Object, e As EventArgs) Handles ExitButton.Click
