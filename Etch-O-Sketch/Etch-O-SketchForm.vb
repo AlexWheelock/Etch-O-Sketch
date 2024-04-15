@@ -7,6 +7,7 @@ Option Strict On
 'https://github.com/AlexWheelock/Etch-O-Sketch.git
 
 Imports System.Media
+Imports System.Net.Security
 
 Public Class EtchOSketchForm
 
@@ -25,7 +26,7 @@ Public Class EtchOSketchForm
     End Function
 
     Sub MouseDraw(newX As Integer, newY As Integer, draw As Boolean)
-        Dim g As Graphics = MainPictureBox.CreateGraphics
+        Dim g As Graphics = DrawingPictureBox.CreateGraphics
         Dim pen As New Pen(ChooseColor())
         Static oldX As Integer
         Static oldY As Integer
@@ -42,7 +43,36 @@ Public Class EtchOSketchForm
     End Sub
 
     Sub DrawWaveforms()
+        Dim g As Graphics = DrawingPictureBox.CreateGraphics
+        Dim pen As New Pen(Color.Red)
+        Dim degree As Double = DrawingPictureBox.Width \ 360
+        Dim oldX As Integer = 0
+        Dim oldY As Integer = DrawingPictureBox.Height \ 2
+        Dim newX As Integer
+        Dim newY As Integer
+        Dim radians As Double
 
+        'vi = vp * sin(360 * f * t * theta) + DC
+
+        For x = 0 To 360 Step degree
+
+            radians = (Math.PI / 180) * x * degree
+
+            newX = CInt(x)
+            newY = CInt(150 * Math.Sin(radians)) + DrawingPictureBox.Height \ 2
+            'newY = CInt(150 * Math.Sin((Math.PI / 180) * x)) + DrawingPictureBox.Height \ 2
+            If x = 90 Then
+                Debug.Print(CStr(x))
+            End If
+            g.DrawLine(pen, oldX, oldY, newX, newY)
+            oldX = newX
+            oldY = newY
+        Next
+
+
+
+        pen.Dispose()
+        g.Dispose()
     End Sub
 
     Sub ClearDrawing()
@@ -87,7 +117,7 @@ Public Class EtchOSketchForm
             Me.SetDesktopLocation(currentX, currentY)
         Next
 
-        MainPictureBox.Refresh()
+        DrawingPictureBox.Refresh()
         SetDefaults()
 
     End Sub
@@ -96,15 +126,12 @@ Public Class EtchOSketchForm
 
 
 
-    Private Sub MainPictureBox_MouseMove(sender As Object, e As MouseEventArgs) Handles MainPictureBox.MouseMove
-        Me.Text = $"({e.X}, {e.Y}, Button: {e.Button}"
-
+    Private Sub MainPictureBox_MouseMove(sender As Object, e As MouseEventArgs) Handles DrawingPictureBox.MouseMove
         If e.Button = MouseButtons.Left Then
             MouseDraw(e.X, e.Y, True)
         Else
             MouseDraw(e.X, e.Y, False)
         End If
-
     End Sub
 
     Private Sub ExitToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ExitToolStripMenuItem.Click
@@ -118,7 +145,7 @@ Public Class EtchOSketchForm
     End Sub
 
     Private Sub WaveformsButton_Click(sender As Object, e As EventArgs) Handles WaveformsButton.Click
-
+        DrawWaveforms()
     End Sub
 
     Private Sub ClearButton_Click(sender As Object, e As EventArgs) Handles ClearButton.Click
@@ -137,7 +164,7 @@ Public Class EtchOSketchForm
         SetDefaults()
     End Sub
 
-    Private Sub MainPictureBox_Click(sender As Object, e As EventArgs) Handles MainPictureBox.Click
+    Private Sub DrawingPictureBox_Click(sender As Object, e As EventArgs) Handles DrawingPictureBox.Click
 
     End Sub
 
