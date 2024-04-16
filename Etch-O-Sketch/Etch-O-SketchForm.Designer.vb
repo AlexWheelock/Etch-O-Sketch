@@ -47,6 +47,7 @@ Partial Class EtchOSketchForm
         '
         'ButtonGroupBox
         '
+        Me.ButtonGroupBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.ButtonGroupBox.Controls.Add(Me.ClearButton)
         Me.ButtonGroupBox.Controls.Add(Me.ExitButton)
         Me.ButtonGroupBox.Controls.Add(Me.WaveformsButton)
@@ -165,7 +166,10 @@ Partial Class EtchOSketchForm
         '
         'DrawingPictureBox
         '
-        Me.DrawingPictureBox.BackColor = System.Drawing.Color.White
+        Me.DrawingPictureBox.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DrawingPictureBox.BackColor = System.Drawing.Color.LightYellow
         Me.DrawingPictureBox.Location = New System.Drawing.Point(16, 46)
         Me.DrawingPictureBox.Margin = New System.Windows.Forms.Padding(4)
         Me.DrawingPictureBox.MinimumSize = New System.Drawing.Size(757, 400)

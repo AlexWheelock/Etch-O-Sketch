@@ -13,6 +13,7 @@ Public Class EtchOSketchForm
 
     Sub SetDefaults()
         ChooseColor(Color.Black, True)
+        DrawingPictureBox.BackColor = Color.LightYellow
     End Sub
 
     Function ChooseColor(Optional newColor As Color = Nothing, Optional update As Boolean = False) As Color
@@ -42,24 +43,69 @@ Public Class EtchOSketchForm
         g.Dispose()
     End Sub
 
-    Sub DrawWaveforms()
+    Sub DrawSineWave()
         Dim g As Graphics = DrawingPictureBox.CreateGraphics
+        g.PageUnit = GraphicsUnit.Pixel
         Dim pen As New Pen(Color.Red)
         Dim degree As Double = DrawingPictureBox.Width \ 360
-        Dim oldX As Integer = 0
-        Dim oldY As Integer = DrawingPictureBox.Height \ 2
-        Dim newX As Integer
-        Dim newY As Integer
         Dim radians As Double
+        Dim oldX As Double = 0
+        Dim oldY As Double = DrawingPictureBox.Height \ 2
+        Dim newX As Double
+        Dim newY As Double
+        Dim angle#
+        Dim x As Double = 0
+
+        Dim xMax As Single = 360 '360 made up units
+        Dim xScale As Single = DrawingPictureBox.Width / xMax
+
+        Dim yMax As Single = 100 '100 made up units
+        Dim yScale As Single = CSng(DrawingPictureBox.Height / 2) / yMax * -1 'calculate the y scale factor
+
+        'apply the scale
+        g.ScaleTransform(xScale, yScale)
+
+        'Set the origin to the y middle of the picture box
+        g.TranslateTransform(0, yMax * -1)
 
         'vi = vp * sin(360 * f * t * theta) + DC
 
-        For x = 0 To 360 Step degree
+        For newX = 0 To 360 Step degree
+
+            angle = (Math.PI / 180) * newX
+
+            newY = (yMax - 10) * Math.Sin(angle)
+
+            g.DrawLine(pen, CInt(oldX), CInt(oldY), CInt(newX), CInt(newY))
+
+            oldX = newX
+            oldY = newY
+
+        Next
+
+
+
+        pen.Dispose()
+        g.Dispose()
+    End Sub
+
+    Sub DrawCosineWave()
+        Dim g As Graphics = DrawingPictureBox.CreateGraphics
+        Dim pen As New Pen(Color.Blue)
+        Dim degree As Double = DrawingPictureBox.Width \ 360
+        Dim oldX As Integer = 0
+        Dim oldY As Integer = (DrawingPictureBox.Height \ 2) + 150
+        Dim newX As Integer
+        Dim newY As Integer
+        Dim radians As Double
+        Dim x As Double = 0
+
+        For x = 0 To 580 Step degree
 
             radians = (Math.PI / 180) * x * degree
 
             newX = CInt(x)
-            newY = CInt(150 * Math.Sin(radians)) + DrawingPictureBox.Height \ 2
+            newY = CInt(150 * Math.Cos(radians)) + DrawingPictureBox.Height \ 2
             'newY = CInt(150 * Math.Sin((Math.PI / 180) * x)) + DrawingPictureBox.Height \ 2
             If x = 90 Then
                 Debug.Print(CStr(x))
@@ -75,45 +121,76 @@ Public Class EtchOSketchForm
         g.Dispose()
     End Sub
 
+    Sub DrawTangentLine()
+
+        Dim g As Graphics = DrawingPictureBox.CreateGraphics
+        Dim pen As New Pen(Color.Green)
+        Dim degree As Double = DrawingPictureBox.Width \ 360
+        Dim oldX As Integer = 0
+        Dim oldY As Integer = DrawingPictureBox.Height \ 2
+        Dim newX As Integer
+        Dim newY As Integer
+        Dim radians As Double
+        Dim x As Double = 0
+
+        For x = 200 To 560 Step degree
+
+            radians = (Math.PI / 180) * x * degree
+
+            newX = CInt(radians)
+            newY = CInt(Math.Tan(radians))
+
+            g.DrawLine(pen, oldX, oldY, newX, newY)
+            oldX = newX
+            oldY = newY
+            newX += 1
+        Next
+
+
+
+        pen.Dispose()
+        g.Dispose()
+    End Sub
+
     Sub ClearDrawing()
         Dim currentX As Integer = Me.DesktopLocation.X
         Dim currentY As Integer = Me.DesktopLocation.Y
 
         'My.Computer.Audio.Play("clearsound.mp3")
 
-        For i = 0 To 100
-            currentX += 1
-            currentY += 1
-            Me.SetDesktopLocation(currentX, currentY)
-        Next
-
-        For i = 0 To 200
-            currentX -= 1
-            currentY -= 1
-            Me.SetDesktopLocation(currentX, currentY)
-        Next
-
-        For i = 0 To 200
-            currentX += 1
-            currentY += 1
-            Me.SetDesktopLocation(currentX, currentY)
-        Next
-
-        For i = 0 To 200
-            currentX -= 1
-            currentY -= 1
-            Me.SetDesktopLocation(currentX, currentY)
-        Next
-
-        For i = 0 To 200
-            currentX += 1
-            currentY += 1
+        For i = 0 To 50
+            currentX += 2
+            currentY += 2
             Me.SetDesktopLocation(currentX, currentY)
         Next
 
         For i = 0 To 100
-            currentX -= 1
-            currentY -= 1
+            currentX -= 2
+            currentY -= 2
+            Me.SetDesktopLocation(currentX, currentY)
+        Next
+
+        For i = 0 To 100
+            currentX += 2
+            currentY += 2
+            Me.SetDesktopLocation(currentX, currentY)
+        Next
+
+        For i = 0 To 100
+            currentX -= 2
+            currentY -= 2
+            Me.SetDesktopLocation(currentX, currentY)
+        Next
+
+        For i = 0 To 100
+            currentX += 2
+            currentY += 2
+            Me.SetDesktopLocation(currentX, currentY)
+        Next
+
+        For i = 0 To 50
+            currentX -= 2
+            currentY -= 2
             Me.SetDesktopLocation(currentX, currentY)
         Next
 
@@ -145,7 +222,9 @@ Public Class EtchOSketchForm
     End Sub
 
     Private Sub WaveformsButton_Click(sender As Object, e As EventArgs) Handles WaveformsButton.Click
-        DrawWaveforms()
+        DrawSineWave()
+        'DrawCosineWave()
+        'DrawTangentLine()
     End Sub
 
     Private Sub ClearButton_Click(sender As Object, e As EventArgs) Handles ClearButton.Click
