@@ -12,6 +12,7 @@ Imports System.Net.Security
 Public Class EtchOSketchForm
 
     Sub SetDefaults()
+        DrawingPictureBox.Refresh()
         ChooseColor(Color.Black, True)
         DrawingPictureBox.BackColor = Color.LightYellow
     End Sub
@@ -43,18 +44,15 @@ Public Class EtchOSketchForm
         g.Dispose()
     End Sub
 
+
+
+    'vi = vp * sin(360 * f * t * theta) + DC
     Sub DrawSineWave()
         Dim g As Graphics = DrawingPictureBox.CreateGraphics
         g.PageUnit = GraphicsUnit.Pixel
         Dim pen As New Pen(Color.Red)
         Dim degree As Double = DrawingPictureBox.Width \ 360
-        Dim radians As Double
-        Dim oldX As Double = 0
-        Dim oldY As Double = DrawingPictureBox.Height \ 2
-        Dim newX As Double
-        Dim newY As Double
-        Dim angle#
-        Dim x As Double = 0
+        Dim angle#, newX#, newY#, oldX#, oldY#
 
         Dim xMax As Single = 360 '360 made up units
         Dim xScale As Single = DrawingPictureBox.Width / xMax
@@ -67,8 +65,6 @@ Public Class EtchOSketchForm
 
         'Set the origin to the y middle of the picture box
         g.TranslateTransform(0, yMax * -1)
-
-        'vi = vp * sin(360 * f * t * theta) + DC
 
         For newX = 0 To 360 Step degree
 
@@ -83,70 +79,81 @@ Public Class EtchOSketchForm
 
         Next
 
-
-
         pen.Dispose()
         g.Dispose()
     End Sub
 
     Sub DrawCosineWave()
         Dim g As Graphics = DrawingPictureBox.CreateGraphics
+        g.PageUnit = GraphicsUnit.Pixel
         Dim pen As New Pen(Color.Blue)
         Dim degree As Double = DrawingPictureBox.Width \ 360
-        Dim oldX As Integer = 0
-        Dim oldY As Integer = (DrawingPictureBox.Height \ 2) + 150
-        Dim newX As Integer
-        Dim newY As Integer
-        Dim radians As Double
-        Dim x As Double = 0
+        Dim angle#, newX#, newY#, oldX#, oldY#
 
-        For x = 0 To 580 Step degree
+        Dim xMax As Single = 360 '360 made up units
+        Dim xScale As Single = DrawingPictureBox.Width / xMax
 
-            radians = (Math.PI / 180) * x * degree
+        Dim yMax As Single = 100 '100 made up units
+        Dim yScale As Single = CSng(DrawingPictureBox.Height / 2) / yMax * -1 'calculate the y scale factor
 
-            newX = CInt(x)
-            newY = CInt(150 * Math.Cos(radians)) + DrawingPictureBox.Height \ 2
-            'newY = CInt(150 * Math.Sin((Math.PI / 180) * x)) + DrawingPictureBox.Height \ 2
-            If x = 90 Then
-                Debug.Print(CStr(x))
-            End If
-            g.DrawLine(pen, oldX, oldY, newX, newY)
+        'apply the scale
+        g.ScaleTransform(xScale, yScale)
+
+        'Set the origin to the y middle of the picture box
+        g.TranslateTransform(0, yMax * -1)
+
+        For newX = 0 To 360 Step degree
+
+            angle = (Math.PI / 180) * newX
+
+            newY = (yMax - 10) * Math.Cos(angle)
+
+            g.DrawLine(pen, CInt(oldX), CInt(oldY), CInt(newX), CInt(newY))
+
             oldX = newX
             oldY = newY
+
         Next
-
-
 
         pen.Dispose()
         g.Dispose()
     End Sub
 
     Sub DrawTangentLine()
-
         Dim g As Graphics = DrawingPictureBox.CreateGraphics
+        g.PageUnit = GraphicsUnit.Pixel
         Dim pen As New Pen(Color.Green)
         Dim degree As Double = DrawingPictureBox.Width \ 360
-        Dim oldX As Integer = 0
-        Dim oldY As Integer = DrawingPictureBox.Height \ 2
-        Dim newX As Integer
-        Dim newY As Integer
-        Dim radians As Double
-        Dim x As Double = 0
+        Dim angle#, newX#, newY#, oldX#, oldY#
 
-        For x = 200 To 560 Step degree
+        Dim xMax As Single = 360 '360 made up units
+        Dim xScale As Single = DrawingPictureBox.Width / xMax
 
-            radians = (Math.PI / 180) * x * degree
+        Dim yMax As Single = 100 '100 made up units
+        Dim yScale As Single = CSng(DrawingPictureBox.Height / 2) / yMax * -1 'calculate the y scale factor
 
-            newX = CInt(radians)
-            newY = CInt(Math.Tan(radians))
+        'apply the scale
+        g.ScaleTransform(xScale, yScale)
 
-            g.DrawLine(pen, oldX, oldY, newX, newY)
+        'Set the origin to the y middle of the picture box
+        g.TranslateTransform(0, yMax * -1)
+
+        For newX = 0 To 360 Step degree
+
+            angle = (Math.PI / 180) * newX
+
+            If newY > DrawingPictureBox.Height Then
+            Else
+                newY = (yMax - 10) * Math.Tan(angle)
+
+                g.DrawLine(pen, CInt(oldX), CInt(oldY), CInt(newX), CInt(newY))
+            End If
+
+
             oldX = newX
             oldY = newY
-            newX += 1
+
         Next
-
-
 
         pen.Dispose()
         g.Dispose()
@@ -194,7 +201,6 @@ Public Class EtchOSketchForm
             Me.SetDesktopLocation(currentX, currentY)
         Next
 
-        DrawingPictureBox.Refresh()
         SetDefaults()
 
     End Sub
@@ -222,9 +228,10 @@ Public Class EtchOSketchForm
     End Sub
 
     Private Sub WaveformsButton_Click(sender As Object, e As EventArgs) Handles WaveformsButton.Click
+        SetDefaults()
         DrawSineWave()
-        'DrawCosineWave()
-        'DrawTangentLine()
+        DrawCosineWave()
+        DrawTangentLine()
     End Sub
 
     Private Sub ClearButton_Click(sender As Object, e As EventArgs) Handles ClearButton.Click
