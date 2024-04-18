@@ -413,7 +413,7 @@ Public Class EtchOSketchForm
     End Sub
 
     'Opens the context menu strip
-    Private Sub PictureBoxContextMenuStrip_Opening_1(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles PictureBoxContextMenuStrip.Opening
+    Private Sub PictureBoxContextMenuStrip_Opening_1(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MainContextMenuStrip.Opening
 
     End Sub
 
