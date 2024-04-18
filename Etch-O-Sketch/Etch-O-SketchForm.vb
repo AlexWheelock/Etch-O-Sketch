@@ -136,7 +136,6 @@ Public Class EtchOSketchForm
                 newY = (yMax - 10) * Math.Cos(angle)
             End If
 
-
             g.DrawLine(pen, CInt(oldX), CInt(oldY), CInt(newX), CInt(newY))
 
             oldX = newX
@@ -179,8 +178,6 @@ Public Class EtchOSketchForm
 
             End Try
 
-
-
             oldX = newX
             oldY = newY
 
@@ -199,7 +196,6 @@ Public Class EtchOSketchForm
         Catch ex As Exception
 
         End Try
-
 
         For i = 0 To 50
             currentX += 2
@@ -312,11 +308,15 @@ Public Class EtchOSketchForm
     End Sub
 
     Private Sub DrawWaveformsToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DrawWaveformsToolStripMenuItem.Click
-
+        SetDefaults()
+        DrawGraticules()
+        DrawSineWave()
+        DrawCosineWave()
+        DrawTangentLine()
     End Sub
 
     Private Sub ClearToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ClearToolStripMenuItem.Click
-
+        ClearDrawing()
     End Sub
 
     Private Sub HelpToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HelpToolStripMenuItem.Click
@@ -335,4 +335,43 @@ Public Class EtchOSketchForm
 
     End Sub
 
+    Private Sub PictureBoxContextMenuStrip_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs)
+
+    End Sub
+
+    Private Sub PictureBoxContextMenuStrip_Opening_1(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles PictureBoxContextMenuStrip.Opening
+
+    End Sub
+
+    Private Sub FileContextMenuButton_Click(sender As Object, e As EventArgs) Handles FileContextMenuButton.Click
+
+    End Sub
+
+    Private Sub ExitToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ExitContextMenuButton.Click
+
+    End Sub
+
+    Private Sub EditToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles EditToolStripMenuItem1.Click
+
+    End Sub
+
+    Private Sub SelectColorToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles SelectColorToolStripMenuItem1.Click
+
+    End Sub
+
+    Private Sub DrawWaveformsToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles DrawWaveformsToolStripMenuItem1.Click
+
+    End Sub
+
+    Private Sub ClearToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles ClearToolStripMenuItem1.Click
+
+    End Sub
+
+    Private Sub ToolStripMenuItem2_Click(sender As Object, e As EventArgs) Handles ToolStripMenuItem2.Click
+
+    End Sub
+
+    Private Sub AboutToolStripMenuItem1_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem1.Click
+
+    End Sub
 End Class
