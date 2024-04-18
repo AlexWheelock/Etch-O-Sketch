@@ -44,6 +44,29 @@ Public Class EtchOSketchForm
         g.Dispose()
     End Sub
 
+    Sub DrawGraticules()
+        Dim g As Graphics = DrawingPictureBox.CreateGraphics
+        Dim pen As New Pen(Color.DarkGray)
+
+        Const TOP = 0%, LEFT = 0%
+        Dim Bottom As Integer = DrawingPictureBox.Height
+        Dim Right As Integer = DrawingPictureBox.Width
+
+        Dim xIncrement = DrawingPictureBox.Width \ 10
+        Dim yIncrement = DrawingPictureBox.Height \ 10
+
+        For x = xIncrement To Right Step xIncrement
+            g.DrawLine(pen, x, TOP, x, Bottom)
+        Next
+
+        For y = yIncrement To Bottom - yIncrement Step yIncrement
+            g.DrawLine(pen, LEFT, y, Right, y)
+        Next
+
+        pen.Dispose()
+        g.Dispose()
+    End Sub
+
 
 
     'vi = vp * sin(360 * f * t * theta) + DC
@@ -106,7 +129,13 @@ Public Class EtchOSketchForm
 
             angle = (Math.PI / 180) * newX
 
-            newY = (yMax - 10) * Math.Cos(angle)
+            If newX = 0 Then
+                newY = yMax - 10
+                oldY = newY
+            Else
+                newY = (yMax - 10) * Math.Cos(angle)
+            End If
+
 
             g.DrawLine(pen, CInt(oldX), CInt(oldY), CInt(newX), CInt(newY))
 
@@ -142,12 +171,14 @@ Public Class EtchOSketchForm
 
             angle = (Math.PI / 180) * newX
 
-            If newY > DrawingPictureBox.Height Then
-            Else
-                newY = (yMax - 10) * Math.Tan(angle)
+            newY = (yMax - 10) * Math.Tan(angle)
 
+            Try
                 g.DrawLine(pen, CInt(oldX), CInt(oldY), CInt(newX), CInt(newY))
-            End If
+            Catch ex As Exception
+
+            End Try
+
 
 
             oldX = newX
@@ -163,7 +194,12 @@ Public Class EtchOSketchForm
         Dim currentX As Integer = Me.DesktopLocation.X
         Dim currentY As Integer = Me.DesktopLocation.Y
 
-        'My.Computer.Audio.Play("clearsound.mp3")
+        Try
+            My.Computer.Audio.Play(My.Resources.Shaker, AudioPlayMode.Background)
+        Catch ex As Exception
+
+        End Try
+
 
         For i = 0 To 50
             currentX += 2
@@ -195,9 +231,15 @@ Public Class EtchOSketchForm
             Me.SetDesktopLocation(currentX, currentY)
         Next
 
-        For i = 0 To 50
+        For i = 0 To 100
             currentX -= 2
             currentY -= 2
+            Me.SetDesktopLocation(currentX, currentY)
+        Next
+
+        For i = 0 To 50
+            currentX += 2
+            currentY += 2
             Me.SetDesktopLocation(currentX, currentY)
         Next
 
@@ -229,6 +271,7 @@ Public Class EtchOSketchForm
 
     Private Sub WaveformsButton_Click(sender As Object, e As EventArgs) Handles WaveformsButton.Click
         SetDefaults()
+        DrawGraticules()
         DrawSineWave()
         DrawCosineWave()
         DrawTangentLine()
