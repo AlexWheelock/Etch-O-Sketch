@@ -59,6 +59,14 @@ Public Class EtchOSketchForm
             If newY = -1 Then
                 newY = (100 - VerticalTrackBar.Value) * (DrawingPictureBox.Height / 100)
             End If
+        ElseIf mode = 3 Then
+            If newX = -1 Then
+                newX = oldX
+            End If
+
+            If newY = -1 Then
+                newY = oldY
+            End If
         End If
 
 
@@ -313,6 +321,41 @@ Public Class EtchOSketchForm
                " button. And when you wish to leave, click the " & Chr(34) & "Exit" & Chr(34) & " button.")
     End Sub
 
+    Sub GetComPorts()
+        SerialComPortsComboBox.Text = ""
+        SerialComPortsComboBox.Items.Clear()
+
+        For Each portName In SerialPort.GetPortNames()
+            SerialComPortsComboBox.Items.Add(portName)
+        Next
+    End Sub
+
+    Function Qy_ReadAnalogInputA1() As Byte()
+        Dim data(0) As Byte
+        data(0) = &B1010001
+        SerialPort.Write(data, 0, 1)
+        Return data
+    End Function
+
+    Function Qy_ReadAnalogInputA2() As Byte()
+        Dim data(0) As Byte
+        data(0) = &B1010010
+        SerialPort.Write(data, 0, 1)
+        Return data
+    End Function
+
+    Function UpdateAnalogInputSelect(Optional analogInput As Integer = 0) As Integer
+        Static currentAnalog As Integer
+
+        If analogInput = 1 Then
+            currentAnalog = 1
+        ElseIf analogInput = 2 Then
+            currentAnalog = 2
+        End If
+
+        Return currentAnalog
+    End Function
+
     'Event Handlers Below Here
 
     'Updates the position of the cursor on DrawingPictureBox constantly as it moves
@@ -379,6 +422,7 @@ Public Class EtchOSketchForm
     'Sets the form to defaults when ran
     Private Sub EtchOSketchForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetDefaults()
+        GetComPorts()
     End Sub
 
     'Opens the color dialog and allows the user to select a pen color, changing currentColor to the selected color when OK is pressed
@@ -448,13 +492,58 @@ Public Class EtchOSketchForm
 
     Private Sub MouseDrawRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles MouseDrawRadioButton.CheckedChanged
         SetDrawMode(1)
+        Timer1.Enabled = False
+        Timer2.Enabled = False
     End Sub
 
     Private Sub SliderDrawRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles SliderDrawRadioButton.CheckedChanged
         SetDrawMode(2)
+        Timer1.Enabled = False
+        Timer2.Enabled = False
     End Sub
 
     Private Sub SerialDrawRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles SerialDrawRadioButton.CheckedChanged
         SetDrawMode(3)
+        Timer1.Enabled = True
+    End Sub
+
+    Private Sub RefreshButton_Click(sender As Object, e As EventArgs) Handles RefreshButton.Click
+        GetComPorts()
+    End Sub
+
+    Private Sub ConnectButton_Click(sender As Object, e As EventArgs) Handles ConnectButton.Click
+        Console.WriteLine($"{SerialComPortsComboBox.SelectedItem}")
+        Try
+            SerialPort.PortName = $"{SerialComPortsComboBox.SelectedItem}"
+            SerialPort.Open()
+        Catch ex As Exception
+            MsgBox("error")
+        End Try
+    End Sub
+
+    Private Sub SerialPort_DataReceived(sender As Object, e As IO.Ports.SerialDataReceivedEventArgs) Handles SerialPort.DataReceived
+        Dim channel As Integer = UpdateAnalogInputSelect()
+        Dim data(SerialPort.BytesToRead) As Byte
+
+        For i = 0 To SerialPort.BytesToRead
+            SerialPort.Read(data, 0, i)
+        Next
+
+        If SetDrawMode() = 3 Then
+            MouseDraw(data(0), data(1), True)
+        End If
+
+    End Sub
+
+    Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
+        Qy_ReadAnalogInputA1()
+        Qy_ReadAnalogInputA2()
+    End Sub
+
+    Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick
+        Qy_ReadAnalogInputA2()
+        UpdateAnalogInputSelect(2)
+        Timer1.Enabled = True
+        Timer2.Enabled = False
     End Sub
 End Class
