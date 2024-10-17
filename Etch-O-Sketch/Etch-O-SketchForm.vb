@@ -18,6 +18,18 @@ Public Class EtchOSketchForm
         DrawingPictureBox.BackColor = Color.LightYellow
     End Sub
 
+    Function SetDrawMode(Optional modeSelect As Integer = 0) As Integer
+        Static mode As Integer
+
+        If modeSelect <> 0 Then
+            mode = modeSelect
+        End If
+
+        Return mode
+    End Function
+
+
+
     'Loads in the pen color constantly as the user moves their mouse across DrawingPictureBox
     Function ChooseColor(Optional newColor As Color = Nothing, Optional update As Boolean = False) As Color
         Static currentColor As Color
@@ -32,16 +44,28 @@ Public Class EtchOSketchForm
 
     'Allows the user to draw on the picture box. It is constantly called as the user moves their cursor over DrawingPictureBox.
     'However it only draws when draw is true, which happens when left-click is held
-    Sub MouseDraw(newX As Integer, newY As Integer, draw As Boolean)
+    Sub MouseDraw(newX As Double, newY As Double, draw As Boolean)
         Dim g As Graphics = DrawingPictureBox.CreateGraphics
         Dim pen As New Pen(ChooseColor())
-        Static oldX As Integer
-        Static oldY As Integer
+        Static oldX As Double
+        Static oldY As Double
+        Dim mode As Integer = SetDrawMode()
+
+        If mode = 2 Then
+            If newX = -1 Then
+                newX = HorizontalTrackBar.Value * (DrawingPictureBox.Width / 100)
+            End If
+
+            If newY = -1 Then
+                newY = (100 - VerticalTrackBar.Value) * (DrawingPictureBox.Height / 100)
+            End If
+        End If
+
 
         'Draws from where the cursor was, to where the user moves their cursor as long as left-click is held
         'Does nothing if left-click is not held
         If draw Then
-            g.DrawLine(pen, oldX, oldY, newX, newY)
+            g.DrawLine(pen, CInt(oldX), CInt(oldY), CInt(newX), CInt(newY))
         End If
 
         'Constantly update the current cursor location to the old as the user moves their mouse across DrawingPictureBox
@@ -294,11 +318,26 @@ Public Class EtchOSketchForm
     'Updates the position of the cursor on DrawingPictureBox constantly as it moves
     'If left-click is held down then it makes draw true, drawing on the picture box
     Private Sub MainPictureBox_MouseMove(sender As Object, e As MouseEventArgs) Handles DrawingPictureBox.MouseMove
-        If e.Button = MouseButtons.Left Then
-            MouseDraw(e.X, e.Y, True)
-        Else
-            MouseDraw(e.X, e.Y, False)
+        If SetDrawMode() = 1 Then
+            If e.Button = MouseButtons.Left Then
+                MouseDraw(e.X, e.Y, True)
+            Else
+                MouseDraw(e.X, e.Y, False)
+            End If
         End If
+    End Sub
+    Private Sub HorizontalTrackBar_Scroll(sender As Object, e As EventArgs) Handles HorizontalTrackBar.Scroll
+        If SetDrawMode() = 2 Then
+            MouseDraw(-1, -1, True)
+        End If
+        XLabel.Text = $"X: {HorizontalTrackBar.Value}"
+    End Sub
+
+    Private Sub VerticalTrackBar_Scroll(sender As Object, e As EventArgs) Handles VerticalTrackBar.Scroll
+        If SetDrawMode() = 2 Then
+            MouseDraw(-1, -1, True)
+        End If
+        YLabel.Text = $"Y: {VerticalTrackBar.Value}"
     End Sub
 
     'Closes the form
@@ -337,29 +376,9 @@ Public Class EtchOSketchForm
         Me.Close()
     End Sub
 
-    'Group box that holds the buttons in the bottom right of the form
-    Private Sub ButtonGroupBox_Enter(sender As Object, e As EventArgs) Handles ButtonGroupBox.Enter
-
-    End Sub
-
     'Sets the form to defaults when ran
     Private Sub EtchOSketchForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         SetDefaults()
-    End Sub
-
-    'Picture box that allows the user to draw on it
-    Private Sub DrawingPictureBox_Click(sender As Object, e As EventArgs) Handles DrawingPictureBox.Click
-
-    End Sub
-
-    'File Strip that appears at the top of the screen
-    Private Sub FileToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles FileToolStripMenuItem.Click
-
-    End Sub
-
-    'Edit button in the tool strip menu
-    Private Sub EditToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditToolStripMenuItem.Click
-
     End Sub
 
     'Opens the color dialog and allows the user to select a pen color, changing currentColor to the selected color when OK is pressed
@@ -386,50 +405,15 @@ Public Class EtchOSketchForm
         ClearDrawing()
     End Sub
 
-    'Help button in the tool strip menu
-    Private Sub HelpToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles HelpToolStripMenuItem.Click
-
-    End Sub
-
     'Displays a message about the form and how to use it
     'About button in the tool strip menu under the help button
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
         About()
     End Sub
 
-    'Main tool tip that gives tips for each control and button in the form
-    Private Sub MainToolTip_Popup(sender As Object, e As PopupEventArgs) Handles MainToolTip.Popup
-
-    End Sub
-
-    'Event for when a button in the top menu is pressed
-    Private Sub TopMenuStrip_ItemClicked(sender As Object, e As ToolStripItemClickedEventArgs) Handles TopMenuStrip.ItemClicked
-
-    End Sub
-
-    'Context Menu for the form
-    Private Sub PictureBoxContextMenuStrip_Opening(sender As Object, e As System.ComponentModel.CancelEventArgs)
-
-    End Sub
-
-    'Opens the context menu strip
-    Private Sub PictureBoxContextMenuStrip_Opening_1(sender As Object, e As System.ComponentModel.CancelEventArgs) Handles MainContextMenuStrip.Opening
-
-    End Sub
-
-    'File button in the context menu
-    Private Sub FileContextMenuButton_Click(sender As Object, e As EventArgs) Handles FileContextMenuButton.Click
-
-    End Sub
-
     'Exit button in the context menu under the file button
     Private Sub ExitContextMenuButton_Click(sender As Object, e As EventArgs) Handles ExitContextMenuButton.Click
         Me.Close()
-    End Sub
-
-    'Edit button in the context menu
-    Private Sub EditContextMenuButton_Click(sender As Object, e As EventArgs) Handles EditContextMenuButton.Click
-
     End Sub
 
     'Opens the color dialog and allows the user to select a pen color, changing currentColor to the selected color when OK is pressed
@@ -456,14 +440,21 @@ Public Class EtchOSketchForm
         ClearDrawing()
     End Sub
 
-    'Help button in the context menu
-    Private Sub HelpContextMenuButton_Click(sender As Object, e As EventArgs) Handles HelpContextMenuButton.Click
-
-    End Sub
-
     'Displays a message about the form and how to use it
     'About button in the context menu under the help button
     Private Sub AboutContextMenuButton_Click(sender As Object, e As EventArgs) Handles AboutContextMenuButton.Click
         About()
+    End Sub
+
+    Private Sub MouseDrawRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles MouseDrawRadioButton.CheckedChanged
+        SetDrawMode(1)
+    End Sub
+
+    Private Sub SliderDrawRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles SliderDrawRadioButton.CheckedChanged
+        SetDrawMode(2)
+    End Sub
+
+    Private Sub SerialDrawRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles SerialDrawRadioButton.CheckedChanged
+        SetDrawMode(3)
     End Sub
 End Class

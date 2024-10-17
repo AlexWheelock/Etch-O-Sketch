@@ -26,8 +26,8 @@ Partial Class EtchOSketchForm
         Me.ButtonGroupBox = New System.Windows.Forms.GroupBox()
         Me.ClearButton = New System.Windows.Forms.Button()
         Me.ExitButton = New System.Windows.Forms.Button()
-        Me.WaveformsButton = New System.Windows.Forms.Button()
         Me.SelectColorButton = New System.Windows.Forms.Button()
+        Me.WaveformsButton = New System.Windows.Forms.Button()
         Me.MainToolTip = New System.Windows.Forms.ToolTip(Me.components)
         Me.TopMenuStrip = New System.Windows.Forms.MenuStrip()
         Me.FileToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
@@ -49,29 +49,41 @@ Partial Class EtchOSketchForm
         Me.ClearContextMenuButton = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpContextMenuButton = New System.Windows.Forms.ToolStripMenuItem()
         Me.AboutContextMenuButton = New System.Windows.Forms.ToolStripMenuItem()
+        Me.HorizontalTrackBar = New System.Windows.Forms.TrackBar()
+        Me.VerticalTrackBar = New System.Windows.Forms.TrackBar()
+        Me.MouseDrawRadioButton = New System.Windows.Forms.RadioButton()
+        Me.SliderDrawRadioButton = New System.Windows.Forms.RadioButton()
+        Me.SerialDrawRadioButton = New System.Windows.Forms.RadioButton()
+        Me.DrawGroupBox = New System.Windows.Forms.GroupBox()
+        Me.XLabel = New System.Windows.Forms.Label()
+        Me.YLabel = New System.Windows.Forms.Label()
         Me.ButtonGroupBox.SuspendLayout()
         Me.TopMenuStrip.SuspendLayout()
         CType(Me.DrawingPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.MainContextMenuStrip.SuspendLayout()
+        CType(Me.HorizontalTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
+        CType(Me.VerticalTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.DrawGroupBox.SuspendLayout()
         Me.SuspendLayout()
         '
         'ButtonGroupBox
         '
-        Me.ButtonGroupBox.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.ButtonGroupBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.ButtonGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.ButtonGroupBox.Controls.Add(Me.ClearButton)
         Me.ButtonGroupBox.Controls.Add(Me.ExitButton)
-        Me.ButtonGroupBox.Controls.Add(Me.WaveformsButton)
         Me.ButtonGroupBox.Controls.Add(Me.SelectColorButton)
-        Me.ButtonGroupBox.Location = New System.Drawing.Point(134, 373)
+        Me.ButtonGroupBox.Controls.Add(Me.WaveformsButton)
+        Me.ButtonGroupBox.Location = New System.Drawing.Point(90, 467)
         Me.ButtonGroupBox.Name = "ButtonGroupBox"
-        Me.ButtonGroupBox.Size = New System.Drawing.Size(438, 80)
+        Me.ButtonGroupBox.Size = New System.Drawing.Size(438, 66)
         Me.ButtonGroupBox.TabIndex = 0
         Me.ButtonGroupBox.TabStop = False
         '
         'ClearButton
         '
         Me.ClearButton.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.ClearButton.Location = New System.Drawing.Point(222, 19)
+        Me.ClearButton.Location = New System.Drawing.Point(222, 11)
         Me.ClearButton.Name = "ClearButton"
         Me.ClearButton.Size = New System.Drawing.Size(102, 47)
         Me.ClearButton.TabIndex = 4
@@ -81,7 +93,7 @@ Partial Class EtchOSketchForm
         '
         'ExitButton
         '
-        Me.ExitButton.Location = New System.Drawing.Point(330, 19)
+        Me.ExitButton.Location = New System.Drawing.Point(330, 11)
         Me.ExitButton.Name = "ExitButton"
         Me.ExitButton.Size = New System.Drawing.Size(102, 47)
         Me.ExitButton.TabIndex = 3
@@ -89,19 +101,9 @@ Partial Class EtchOSketchForm
         Me.MainToolTip.SetToolTip(Me.ExitButton, "Closes the form")
         Me.ExitButton.UseVisualStyleBackColor = True
         '
-        'WaveformsButton
-        '
-        Me.WaveformsButton.Location = New System.Drawing.Point(114, 19)
-        Me.WaveformsButton.Name = "WaveformsButton"
-        Me.WaveformsButton.Size = New System.Drawing.Size(102, 47)
-        Me.WaveformsButton.TabIndex = 1
-        Me.WaveformsButton.Text = "&Draw Waveforms"
-        Me.MainToolTip.SetToolTip(Me.WaveformsButton, "Draw a 10x10 grid, sine, cosine, and tangent waves")
-        Me.WaveformsButton.UseVisualStyleBackColor = True
-        '
         'SelectColorButton
         '
-        Me.SelectColorButton.Location = New System.Drawing.Point(6, 19)
+        Me.SelectColorButton.Location = New System.Drawing.Point(6, 11)
         Me.SelectColorButton.Name = "SelectColorButton"
         Me.SelectColorButton.Size = New System.Drawing.Size(102, 47)
         Me.SelectColorButton.TabIndex = 0
@@ -109,8 +111,15 @@ Partial Class EtchOSketchForm
         Me.MainToolTip.SetToolTip(Me.SelectColorButton, "Select a new drawing color")
         Me.SelectColorButton.UseVisualStyleBackColor = True
         '
-        'MainToolTip
+        'WaveformsButton
         '
+        Me.WaveformsButton.Location = New System.Drawing.Point(114, 11)
+        Me.WaveformsButton.Name = "WaveformsButton"
+        Me.WaveformsButton.Size = New System.Drawing.Size(102, 47)
+        Me.WaveformsButton.TabIndex = 1
+        Me.WaveformsButton.Text = "&Draw Waveforms"
+        Me.MainToolTip.SetToolTip(Me.WaveformsButton, "Draw a 10x10 grid, sine, cosine, and tangent waves")
+        Me.WaveformsButton.UseVisualStyleBackColor = True
         '
         'TopMenuStrip
         '
@@ -119,7 +128,7 @@ Partial Class EtchOSketchForm
         Me.TopMenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.TopMenuStrip.Name = "TopMenuStrip"
         Me.TopMenuStrip.Padding = New System.Windows.Forms.Padding(4, 2, 0, 2)
-        Me.TopMenuStrip.Size = New System.Drawing.Size(585, 24)
+        Me.TopMenuStrip.Size = New System.Drawing.Size(612, 24)
         Me.TopMenuStrip.TabIndex = 1
         Me.TopMenuStrip.Text = "TopMenuStrip"
         '
@@ -260,6 +269,100 @@ Partial Class EtchOSketchForm
         Me.AboutContextMenuButton.Text = "&About"
         Me.AboutContextMenuButton.ToolTipText = "About this form"
         '
+        'HorizontalTrackBar
+        '
+        Me.HorizontalTrackBar.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.HorizontalTrackBar.Location = New System.Drawing.Point(12, 373)
+        Me.HorizontalTrackBar.Maximum = 100
+        Me.HorizontalTrackBar.Name = "HorizontalTrackBar"
+        Me.HorizontalTrackBar.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.HorizontalTrackBar.RightToLeftLayout = True
+        Me.HorizontalTrackBar.Size = New System.Drawing.Size(560, 45)
+        Me.HorizontalTrackBar.TabIndex = 3
+        Me.HorizontalTrackBar.TickFrequency = 10
+        '
+        'VerticalTrackBar
+        '
+        Me.VerticalTrackBar.Anchor = System.Windows.Forms.AnchorStyles.Right
+        Me.VerticalTrackBar.Location = New System.Drawing.Point(578, 37)
+        Me.VerticalTrackBar.Maximum = 100
+        Me.VerticalTrackBar.Name = "VerticalTrackBar"
+        Me.VerticalTrackBar.Orientation = System.Windows.Forms.Orientation.Vertical
+        Me.VerticalTrackBar.RightToLeft = System.Windows.Forms.RightToLeft.No
+        Me.VerticalTrackBar.RightToLeftLayout = True
+        Me.VerticalTrackBar.Size = New System.Drawing.Size(45, 330)
+        Me.VerticalTrackBar.TabIndex = 4
+        Me.VerticalTrackBar.TickFrequency = 10
+        '
+        'MouseDrawRadioButton
+        '
+        Me.MouseDrawRadioButton.AutoSize = True
+        Me.MouseDrawRadioButton.Checked = True
+        Me.MouseDrawRadioButton.ForeColor = System.Drawing.Color.White
+        Me.MouseDrawRadioButton.Location = New System.Drawing.Point(6, 19)
+        Me.MouseDrawRadioButton.Name = "MouseDrawRadioButton"
+        Me.MouseDrawRadioButton.Size = New System.Drawing.Size(57, 17)
+        Me.MouseDrawRadioButton.TabIndex = 5
+        Me.MouseDrawRadioButton.TabStop = True
+        Me.MouseDrawRadioButton.Text = "Mouse"
+        Me.MouseDrawRadioButton.UseVisualStyleBackColor = True
+        '
+        'SliderDrawRadioButton
+        '
+        Me.SliderDrawRadioButton.AutoSize = True
+        Me.SliderDrawRadioButton.ForeColor = System.Drawing.Color.White
+        Me.SliderDrawRadioButton.Location = New System.Drawing.Point(69, 19)
+        Me.SliderDrawRadioButton.Name = "SliderDrawRadioButton"
+        Me.SliderDrawRadioButton.Size = New System.Drawing.Size(56, 17)
+        Me.SliderDrawRadioButton.TabIndex = 6
+        Me.SliderDrawRadioButton.Text = "Sliders"
+        Me.SliderDrawRadioButton.UseVisualStyleBackColor = True
+        '
+        'SerialDrawRadioButton
+        '
+        Me.SerialDrawRadioButton.AutoSize = True
+        Me.SerialDrawRadioButton.ForeColor = System.Drawing.Color.White
+        Me.SerialDrawRadioButton.Location = New System.Drawing.Point(131, 19)
+        Me.SerialDrawRadioButton.Name = "SerialDrawRadioButton"
+        Me.SerialDrawRadioButton.Size = New System.Drawing.Size(51, 17)
+        Me.SerialDrawRadioButton.TabIndex = 7
+        Me.SerialDrawRadioButton.Text = "Serial"
+        Me.SerialDrawRadioButton.UseVisualStyleBackColor = True
+        '
+        'DrawGroupBox
+        '
+        Me.DrawGroupBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.DrawGroupBox.Controls.Add(Me.MouseDrawRadioButton)
+        Me.DrawGroupBox.Controls.Add(Me.SerialDrawRadioButton)
+        Me.DrawGroupBox.Controls.Add(Me.SliderDrawRadioButton)
+        Me.DrawGroupBox.ForeColor = System.Drawing.Color.White
+        Me.DrawGroupBox.Location = New System.Drawing.Point(217, 412)
+        Me.DrawGroupBox.Name = "DrawGroupBox"
+        Me.DrawGroupBox.Size = New System.Drawing.Size(186, 49)
+        Me.DrawGroupBox.TabIndex = 8
+        Me.DrawGroupBox.TabStop = False
+        Me.DrawGroupBox.Text = "Drawing Input"
+        '
+        'XLabel
+        '
+        Me.XLabel.AutoSize = True
+        Me.XLabel.ForeColor = System.Drawing.Color.White
+        Me.XLabel.Location = New System.Drawing.Point(417, 421)
+        Me.XLabel.Name = "XLabel"
+        Me.XLabel.Size = New System.Drawing.Size(39, 13)
+        Me.XLabel.TabIndex = 9
+        Me.XLabel.Text = "Label1"
+        '
+        'YLabel
+        '
+        Me.YLabel.AutoSize = True
+        Me.YLabel.ForeColor = System.Drawing.Color.White
+        Me.YLabel.Location = New System.Drawing.Point(417, 435)
+        Me.YLabel.Name = "YLabel"
+        Me.YLabel.Size = New System.Drawing.Size(39, 13)
+        Me.YLabel.TabIndex = 10
+        Me.YLabel.Text = "Label1"
+        '
         'EtchOSketchForm
         '
         Me.AcceptButton = Me.WaveformsButton
@@ -268,8 +371,13 @@ Partial Class EtchOSketchForm
         Me.BackColor = System.Drawing.Color.Red
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.CancelButton = Me.ClearButton
-        Me.ClientSize = New System.Drawing.Size(585, 466)
+        Me.ClientSize = New System.Drawing.Size(612, 545)
         Me.ContextMenuStrip = Me.MainContextMenuStrip
+        Me.Controls.Add(Me.YLabel)
+        Me.Controls.Add(Me.XLabel)
+        Me.Controls.Add(Me.DrawGroupBox)
+        Me.Controls.Add(Me.VerticalTrackBar)
+        Me.Controls.Add(Me.HorizontalTrackBar)
         Me.Controls.Add(Me.DrawingPictureBox)
         Me.Controls.Add(Me.ButtonGroupBox)
         Me.Controls.Add(Me.TopMenuStrip)
@@ -282,6 +390,10 @@ Partial Class EtchOSketchForm
         Me.TopMenuStrip.PerformLayout()
         CType(Me.DrawingPictureBox, System.ComponentModel.ISupportInitialize).EndInit()
         Me.MainContextMenuStrip.ResumeLayout(False)
+        CType(Me.HorizontalTrackBar, System.ComponentModel.ISupportInitialize).EndInit()
+        CType(Me.VerticalTrackBar, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.DrawGroupBox.ResumeLayout(False)
+        Me.DrawGroupBox.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -313,4 +425,12 @@ Partial Class EtchOSketchForm
     Friend WithEvents ClearContextMenuButton As ToolStripMenuItem
     Friend WithEvents HelpContextMenuButton As ToolStripMenuItem
     Friend WithEvents AboutContextMenuButton As ToolStripMenuItem
+    Friend WithEvents HorizontalTrackBar As TrackBar
+    Friend WithEvents VerticalTrackBar As TrackBar
+    Friend WithEvents MouseDrawRadioButton As RadioButton
+    Friend WithEvents SliderDrawRadioButton As RadioButton
+    Friend WithEvents SerialDrawRadioButton As RadioButton
+    Friend WithEvents DrawGroupBox As GroupBox
+    Friend WithEvents XLabel As Label
+    Friend WithEvents YLabel As Label
 End Class
