@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class EtchOSketchForm
     Inherits System.Windows.Forms.Form
 
     'Form overrides dispose to clean up the component list.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class EtchOSketchForm
     'NOTE: The following procedure is required by the Windows Form Designer
     'It can be modified using the Windows Form Designer.  
     'Do not modify it using the code editor.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container()
         Me.ButtonGroupBox = New System.Windows.Forms.GroupBox()
@@ -55,14 +55,16 @@ Partial Class EtchOSketchForm
         Me.SliderDrawRadioButton = New System.Windows.Forms.RadioButton()
         Me.SerialDrawRadioButton = New System.Windows.Forms.RadioButton()
         Me.DrawGroupBox = New System.Windows.Forms.GroupBox()
-        Me.XLabel = New System.Windows.Forms.Label()
-        Me.YLabel = New System.Windows.Forms.Label()
         Me.SerialPort = New System.IO.Ports.SerialPort(Me.components)
         Me.SerialComPortsComboBox = New System.Windows.Forms.ComboBox()
         Me.ConnectButton = New System.Windows.Forms.Button()
         Me.RefreshButton = New System.Windows.Forms.Button()
         Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
-        Me.Timer2 = New System.Windows.Forms.Timer(Me.components)
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.RefreshToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ConnectToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.ConnectContextMenuButton = New System.Windows.Forms.ToolStripMenuItem()
+        Me.RefreshContextMenuButton = New System.Windows.Forms.ToolStripMenuItem()
         Me.ButtonGroupBox.SuspendLayout()
         Me.TopMenuStrip.SuspendLayout()
         CType(Me.DrawingPictureBox, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -70,6 +72,7 @@ Partial Class EtchOSketchForm
         CType(Me.HorizontalTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         CType(Me.VerticalTrackBar, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.DrawGroupBox.SuspendLayout()
+        Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
         'ButtonGroupBox
@@ -80,21 +83,18 @@ Partial Class EtchOSketchForm
         Me.ButtonGroupBox.Controls.Add(Me.ExitButton)
         Me.ButtonGroupBox.Controls.Add(Me.SelectColorButton)
         Me.ButtonGroupBox.Controls.Add(Me.WaveformsButton)
-        Me.ButtonGroupBox.Location = New System.Drawing.Point(120, 575)
-        Me.ButtonGroupBox.Margin = New System.Windows.Forms.Padding(4)
+        Me.ButtonGroupBox.Location = New System.Drawing.Point(90, 467)
         Me.ButtonGroupBox.Name = "ButtonGroupBox"
-        Me.ButtonGroupBox.Padding = New System.Windows.Forms.Padding(4)
-        Me.ButtonGroupBox.Size = New System.Drawing.Size(584, 81)
+        Me.ButtonGroupBox.Size = New System.Drawing.Size(438, 66)
         Me.ButtonGroupBox.TabIndex = 0
         Me.ButtonGroupBox.TabStop = False
         '
         'ClearButton
         '
         Me.ClearButton.DialogResult = System.Windows.Forms.DialogResult.Cancel
-        Me.ClearButton.Location = New System.Drawing.Point(296, 14)
-        Me.ClearButton.Margin = New System.Windows.Forms.Padding(4)
+        Me.ClearButton.Location = New System.Drawing.Point(222, 11)
         Me.ClearButton.Name = "ClearButton"
-        Me.ClearButton.Size = New System.Drawing.Size(136, 58)
+        Me.ClearButton.Size = New System.Drawing.Size(102, 47)
         Me.ClearButton.TabIndex = 4
         Me.ClearButton.Text = "&Clear"
         Me.MainToolTip.SetToolTip(Me.ClearButton, "Clears the current drawing")
@@ -102,10 +102,9 @@ Partial Class EtchOSketchForm
         '
         'ExitButton
         '
-        Me.ExitButton.Location = New System.Drawing.Point(440, 14)
-        Me.ExitButton.Margin = New System.Windows.Forms.Padding(4)
+        Me.ExitButton.Location = New System.Drawing.Point(330, 11)
         Me.ExitButton.Name = "ExitButton"
-        Me.ExitButton.Size = New System.Drawing.Size(136, 58)
+        Me.ExitButton.Size = New System.Drawing.Size(102, 47)
         Me.ExitButton.TabIndex = 3
         Me.ExitButton.Text = "E&xit"
         Me.MainToolTip.SetToolTip(Me.ExitButton, "Closes the form")
@@ -113,10 +112,9 @@ Partial Class EtchOSketchForm
         '
         'SelectColorButton
         '
-        Me.SelectColorButton.Location = New System.Drawing.Point(8, 14)
-        Me.SelectColorButton.Margin = New System.Windows.Forms.Padding(4)
+        Me.SelectColorButton.Location = New System.Drawing.Point(6, 11)
         Me.SelectColorButton.Name = "SelectColorButton"
-        Me.SelectColorButton.Size = New System.Drawing.Size(136, 58)
+        Me.SelectColorButton.Size = New System.Drawing.Size(102, 47)
         Me.SelectColorButton.TabIndex = 0
         Me.SelectColorButton.Text = "&Select Color"
         Me.MainToolTip.SetToolTip(Me.SelectColorButton, "Select a new drawing color")
@@ -124,10 +122,9 @@ Partial Class EtchOSketchForm
         '
         'WaveformsButton
         '
-        Me.WaveformsButton.Location = New System.Drawing.Point(152, 14)
-        Me.WaveformsButton.Margin = New System.Windows.Forms.Padding(4)
+        Me.WaveformsButton.Location = New System.Drawing.Point(114, 11)
         Me.WaveformsButton.Name = "WaveformsButton"
-        Me.WaveformsButton.Size = New System.Drawing.Size(136, 58)
+        Me.WaveformsButton.Size = New System.Drawing.Size(102, 47)
         Me.WaveformsButton.TabIndex = 1
         Me.WaveformsButton.Text = "&Draw Waveforms"
         Me.MainToolTip.SetToolTip(Me.WaveformsButton, "Draw a 10x10 grid, sine, cosine, and tangent waves")
@@ -139,23 +136,23 @@ Partial Class EtchOSketchForm
         Me.TopMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileToolStripMenuItem, Me.EditToolStripMenuItem, Me.HelpToolStripMenuItem})
         Me.TopMenuStrip.Location = New System.Drawing.Point(0, 0)
         Me.TopMenuStrip.Name = "TopMenuStrip"
-        Me.TopMenuStrip.Padding = New System.Windows.Forms.Padding(5, 2, 0, 2)
-        Me.TopMenuStrip.Size = New System.Drawing.Size(816, 28)
+        Me.TopMenuStrip.Padding = New System.Windows.Forms.Padding(4, 2, 0, 2)
+        Me.TopMenuStrip.Size = New System.Drawing.Size(612, 24)
         Me.TopMenuStrip.TabIndex = 1
         Me.TopMenuStrip.Text = "TopMenuStrip"
         '
         'FileToolStripMenuItem
         '
-        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitToolStripMenuItem})
+        Me.FileToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RefreshToolStripMenuItem, Me.ConnectToolStripMenuItem, Me.ExitToolStripMenuItem})
         Me.FileToolStripMenuItem.Name = "FileToolStripMenuItem"
-        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(46, 24)
+        Me.FileToolStripMenuItem.Size = New System.Drawing.Size(37, 20)
         Me.FileToolStripMenuItem.Text = "&File"
         Me.FileToolStripMenuItem.ToolTipText = "File"
         '
         'ExitToolStripMenuItem
         '
         Me.ExitToolStripMenuItem.Name = "ExitToolStripMenuItem"
-        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(116, 26)
+        Me.ExitToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ExitToolStripMenuItem.Text = "E&xit"
         Me.ExitToolStripMenuItem.ToolTipText = "Exit the form"
         '
@@ -163,28 +160,28 @@ Partial Class EtchOSketchForm
         '
         Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectColorToolStripMenuItem, Me.DrawWaveformsToolStripMenuItem, Me.ClearToolStripMenuItem})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
-        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(49, 24)
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
         Me.EditToolStripMenuItem.Text = "&Edit"
         Me.EditToolStripMenuItem.ToolTipText = "Edit drawing"
         '
         'SelectColorToolStripMenuItem
         '
         Me.SelectColorToolStripMenuItem.Name = "SelectColorToolStripMenuItem"
-        Me.SelectColorToolStripMenuItem.Size = New System.Drawing.Size(205, 26)
+        Me.SelectColorToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.SelectColorToolStripMenuItem.Text = "&Select Color"
         Me.SelectColorToolStripMenuItem.ToolTipText = "Select a new drawing color"
         '
         'DrawWaveformsToolStripMenuItem
         '
         Me.DrawWaveformsToolStripMenuItem.Name = "DrawWaveformsToolStripMenuItem"
-        Me.DrawWaveformsToolStripMenuItem.Size = New System.Drawing.Size(205, 26)
+        Me.DrawWaveformsToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.DrawWaveformsToolStripMenuItem.Text = "&Draw Waveforms"
         Me.DrawWaveformsToolStripMenuItem.ToolTipText = "Draw a 10x10 grid, sine, cosine, and tangent waves"
         '
         'ClearToolStripMenuItem
         '
         Me.ClearToolStripMenuItem.Name = "ClearToolStripMenuItem"
-        Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(205, 26)
+        Me.ClearToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ClearToolStripMenuItem.Text = "&Clear"
         Me.ClearToolStripMenuItem.ToolTipText = "Clear the current drawing"
         '
@@ -192,14 +189,14 @@ Partial Class EtchOSketchForm
         '
         Me.HelpToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutToolStripMenuItem})
         Me.HelpToolStripMenuItem.Name = "HelpToolStripMenuItem"
-        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(55, 24)
+        Me.HelpToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
         Me.HelpToolStripMenuItem.Text = "&Help"
         Me.HelpToolStripMenuItem.ToolTipText = "Help"
         '
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(133, 26)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
         Me.AboutToolStripMenuItem.Text = "&About"
         Me.AboutToolStripMenuItem.ToolTipText = "About this form"
         '
@@ -209,11 +206,10 @@ Partial Class EtchOSketchForm
             Or System.Windows.Forms.AnchorStyles.Left) _
             Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.DrawingPictureBox.BackColor = System.Drawing.Color.LightYellow
-        Me.DrawingPictureBox.Location = New System.Drawing.Point(16, 46)
-        Me.DrawingPictureBox.Margin = New System.Windows.Forms.Padding(4)
-        Me.DrawingPictureBox.MinimumSize = New System.Drawing.Size(747, 406)
+        Me.DrawingPictureBox.Location = New System.Drawing.Point(12, 37)
+        Me.DrawingPictureBox.MinimumSize = New System.Drawing.Size(560, 330)
         Me.DrawingPictureBox.Name = "DrawingPictureBox"
-        Me.DrawingPictureBox.Size = New System.Drawing.Size(747, 406)
+        Me.DrawingPictureBox.Size = New System.Drawing.Size(560, 330)
         Me.DrawingPictureBox.TabIndex = 2
         Me.DrawingPictureBox.TabStop = False
         '
@@ -222,20 +218,20 @@ Partial Class EtchOSketchForm
         Me.MainContextMenuStrip.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MainContextMenuStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.FileContextMenuButton, Me.EditContextMenuButton, Me.HelpContextMenuButton})
         Me.MainContextMenuStrip.Name = "PictureBoxContextMenuStrip"
-        Me.MainContextMenuStrip.Size = New System.Drawing.Size(111, 76)
+        Me.MainContextMenuStrip.Size = New System.Drawing.Size(100, 70)
         '
         'FileContextMenuButton
         '
-        Me.FileContextMenuButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ExitContextMenuButton})
+        Me.FileContextMenuButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ConnectContextMenuButton, Me.RefreshContextMenuButton, Me.ExitContextMenuButton})
         Me.FileContextMenuButton.Name = "FileContextMenuButton"
-        Me.FileContextMenuButton.Size = New System.Drawing.Size(110, 24)
+        Me.FileContextMenuButton.Size = New System.Drawing.Size(180, 22)
         Me.FileContextMenuButton.Text = "&File"
         Me.FileContextMenuButton.ToolTipText = "File"
         '
         'ExitContextMenuButton
         '
         Me.ExitContextMenuButton.Name = "ExitContextMenuButton"
-        Me.ExitContextMenuButton.Size = New System.Drawing.Size(116, 26)
+        Me.ExitContextMenuButton.Size = New System.Drawing.Size(180, 22)
         Me.ExitContextMenuButton.Text = "E&xit"
         Me.ExitContextMenuButton.ToolTipText = "Closes the form"
         '
@@ -243,28 +239,28 @@ Partial Class EtchOSketchForm
         '
         Me.EditContextMenuButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.SelectColorContextMenuButton, Me.DrawWaveformsContextMenuButton, Me.ClearContextMenuButton})
         Me.EditContextMenuButton.Name = "EditContextMenuButton"
-        Me.EditContextMenuButton.Size = New System.Drawing.Size(110, 24)
+        Me.EditContextMenuButton.Size = New System.Drawing.Size(180, 22)
         Me.EditContextMenuButton.Text = "&Edit"
         Me.EditContextMenuButton.ToolTipText = "Edit"
         '
         'SelectColorContextMenuButton
         '
         Me.SelectColorContextMenuButton.Name = "SelectColorContextMenuButton"
-        Me.SelectColorContextMenuButton.Size = New System.Drawing.Size(205, 26)
+        Me.SelectColorContextMenuButton.Size = New System.Drawing.Size(164, 22)
         Me.SelectColorContextMenuButton.Text = "&Select Color"
         Me.SelectColorContextMenuButton.ToolTipText = "Select a new drawing color"
         '
         'DrawWaveformsContextMenuButton
         '
         Me.DrawWaveformsContextMenuButton.Name = "DrawWaveformsContextMenuButton"
-        Me.DrawWaveformsContextMenuButton.Size = New System.Drawing.Size(205, 26)
+        Me.DrawWaveformsContextMenuButton.Size = New System.Drawing.Size(164, 22)
         Me.DrawWaveformsContextMenuButton.Text = "&Draw Waveforms"
         Me.DrawWaveformsContextMenuButton.ToolTipText = "Draws a 10x10 grid, sine, cosine, and tangent waves"
         '
         'ClearContextMenuButton
         '
         Me.ClearContextMenuButton.Name = "ClearContextMenuButton"
-        Me.ClearContextMenuButton.Size = New System.Drawing.Size(205, 26)
+        Me.ClearContextMenuButton.Size = New System.Drawing.Size(164, 22)
         Me.ClearContextMenuButton.Text = "&Clear"
         Me.ClearContextMenuButton.ToolTipText = "Clears the current drawing"
         '
@@ -272,41 +268,39 @@ Partial Class EtchOSketchForm
         '
         Me.HelpContextMenuButton.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutContextMenuButton})
         Me.HelpContextMenuButton.Name = "HelpContextMenuButton"
-        Me.HelpContextMenuButton.Size = New System.Drawing.Size(110, 24)
+        Me.HelpContextMenuButton.Size = New System.Drawing.Size(180, 22)
         Me.HelpContextMenuButton.Text = "&Help"
         Me.HelpContextMenuButton.ToolTipText = "Help"
         '
         'AboutContextMenuButton
         '
         Me.AboutContextMenuButton.Name = "AboutContextMenuButton"
-        Me.AboutContextMenuButton.Size = New System.Drawing.Size(133, 26)
+        Me.AboutContextMenuButton.Size = New System.Drawing.Size(107, 22)
         Me.AboutContextMenuButton.Text = "&About"
         Me.AboutContextMenuButton.ToolTipText = "About this form"
         '
         'HorizontalTrackBar
         '
         Me.HorizontalTrackBar.Anchor = System.Windows.Forms.AnchorStyles.Bottom
-        Me.HorizontalTrackBar.Location = New System.Drawing.Point(16, 459)
-        Me.HorizontalTrackBar.Margin = New System.Windows.Forms.Padding(4)
+        Me.HorizontalTrackBar.Location = New System.Drawing.Point(12, 373)
         Me.HorizontalTrackBar.Maximum = 100
         Me.HorizontalTrackBar.Name = "HorizontalTrackBar"
         Me.HorizontalTrackBar.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.HorizontalTrackBar.RightToLeftLayout = True
-        Me.HorizontalTrackBar.Size = New System.Drawing.Size(747, 56)
+        Me.HorizontalTrackBar.Size = New System.Drawing.Size(560, 45)
         Me.HorizontalTrackBar.TabIndex = 3
         Me.HorizontalTrackBar.TickFrequency = 10
         '
         'VerticalTrackBar
         '
         Me.VerticalTrackBar.Anchor = System.Windows.Forms.AnchorStyles.Right
-        Me.VerticalTrackBar.Location = New System.Drawing.Point(771, 46)
-        Me.VerticalTrackBar.Margin = New System.Windows.Forms.Padding(4)
+        Me.VerticalTrackBar.Location = New System.Drawing.Point(578, 37)
         Me.VerticalTrackBar.Maximum = 100
         Me.VerticalTrackBar.Name = "VerticalTrackBar"
         Me.VerticalTrackBar.Orientation = System.Windows.Forms.Orientation.Vertical
         Me.VerticalTrackBar.RightToLeft = System.Windows.Forms.RightToLeft.No
         Me.VerticalTrackBar.RightToLeftLayout = True
-        Me.VerticalTrackBar.Size = New System.Drawing.Size(56, 406)
+        Me.VerticalTrackBar.Size = New System.Drawing.Size(45, 330)
         Me.VerticalTrackBar.TabIndex = 4
         Me.VerticalTrackBar.TickFrequency = 10
         '
@@ -315,10 +309,9 @@ Partial Class EtchOSketchForm
         Me.MouseDrawRadioButton.AutoSize = True
         Me.MouseDrawRadioButton.Checked = True
         Me.MouseDrawRadioButton.ForeColor = System.Drawing.Color.White
-        Me.MouseDrawRadioButton.Location = New System.Drawing.Point(8, 23)
-        Me.MouseDrawRadioButton.Margin = New System.Windows.Forms.Padding(4)
+        Me.MouseDrawRadioButton.Location = New System.Drawing.Point(6, 19)
         Me.MouseDrawRadioButton.Name = "MouseDrawRadioButton"
-        Me.MouseDrawRadioButton.Size = New System.Drawing.Size(69, 20)
+        Me.MouseDrawRadioButton.Size = New System.Drawing.Size(57, 17)
         Me.MouseDrawRadioButton.TabIndex = 5
         Me.MouseDrawRadioButton.TabStop = True
         Me.MouseDrawRadioButton.Text = "Mouse"
@@ -328,10 +321,9 @@ Partial Class EtchOSketchForm
         '
         Me.SliderDrawRadioButton.AutoSize = True
         Me.SliderDrawRadioButton.ForeColor = System.Drawing.Color.White
-        Me.SliderDrawRadioButton.Location = New System.Drawing.Point(92, 23)
-        Me.SliderDrawRadioButton.Margin = New System.Windows.Forms.Padding(4)
+        Me.SliderDrawRadioButton.Location = New System.Drawing.Point(78, 19)
         Me.SliderDrawRadioButton.Name = "SliderDrawRadioButton"
-        Me.SliderDrawRadioButton.Size = New System.Drawing.Size(70, 20)
+        Me.SliderDrawRadioButton.Size = New System.Drawing.Size(56, 17)
         Me.SliderDrawRadioButton.TabIndex = 6
         Me.SliderDrawRadioButton.Text = "Sliders"
         Me.SliderDrawRadioButton.UseVisualStyleBackColor = True
@@ -340,10 +332,9 @@ Partial Class EtchOSketchForm
         '
         Me.SerialDrawRadioButton.AutoSize = True
         Me.SerialDrawRadioButton.ForeColor = System.Drawing.Color.White
-        Me.SerialDrawRadioButton.Location = New System.Drawing.Point(175, 23)
-        Me.SerialDrawRadioButton.Margin = New System.Windows.Forms.Padding(4)
+        Me.SerialDrawRadioButton.Location = New System.Drawing.Point(151, 19)
         Me.SerialDrawRadioButton.Name = "SerialDrawRadioButton"
-        Me.SerialDrawRadioButton.Size = New System.Drawing.Size(63, 20)
+        Me.SerialDrawRadioButton.Size = New System.Drawing.Size(51, 17)
         Me.SerialDrawRadioButton.TabIndex = 7
         Me.SerialDrawRadioButton.Text = "Serial"
         Me.SerialDrawRadioButton.UseVisualStyleBackColor = True
@@ -355,36 +346,12 @@ Partial Class EtchOSketchForm
         Me.DrawGroupBox.Controls.Add(Me.SerialDrawRadioButton)
         Me.DrawGroupBox.Controls.Add(Me.SliderDrawRadioButton)
         Me.DrawGroupBox.ForeColor = System.Drawing.Color.White
-        Me.DrawGroupBox.Location = New System.Drawing.Point(128, 507)
-        Me.DrawGroupBox.Margin = New System.Windows.Forms.Padding(4)
+        Me.DrawGroupBox.Location = New System.Drawing.Point(90, 412)
         Me.DrawGroupBox.Name = "DrawGroupBox"
-        Me.DrawGroupBox.Padding = New System.Windows.Forms.Padding(4)
-        Me.DrawGroupBox.Size = New System.Drawing.Size(248, 60)
+        Me.DrawGroupBox.Size = New System.Drawing.Size(208, 49)
         Me.DrawGroupBox.TabIndex = 8
         Me.DrawGroupBox.TabStop = False
         Me.DrawGroupBox.Text = "Drawing Input"
-        '
-        'XLabel
-        '
-        Me.XLabel.AutoSize = True
-        Me.XLabel.ForeColor = System.Drawing.Color.White
-        Me.XLabel.Location = New System.Drawing.Point(58, 519)
-        Me.XLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.XLabel.Name = "XLabel"
-        Me.XLabel.Size = New System.Drawing.Size(48, 16)
-        Me.XLabel.TabIndex = 9
-        Me.XLabel.Text = "Label1"
-        '
-        'YLabel
-        '
-        Me.YLabel.AutoSize = True
-        Me.YLabel.ForeColor = System.Drawing.Color.White
-        Me.YLabel.Location = New System.Drawing.Point(58, 536)
-        Me.YLabel.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
-        Me.YLabel.Name = "YLabel"
-        Me.YLabel.Size = New System.Drawing.Size(48, 16)
-        Me.YLabel.TabIndex = 10
-        Me.YLabel.Text = "Label1"
         '
         'SerialPort
         '
@@ -393,60 +360,94 @@ Partial Class EtchOSketchForm
         'SerialComPortsComboBox
         '
         Me.SerialComPortsComboBox.FormattingEnabled = True
-        Me.SerialComPortsComboBox.Location = New System.Drawing.Point(416, 533)
+        Me.SerialComPortsComboBox.Location = New System.Drawing.Point(5, 21)
+        Me.SerialComPortsComboBox.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.SerialComPortsComboBox.Name = "SerialComPortsComboBox"
-        Me.SerialComPortsComboBox.Size = New System.Drawing.Size(121, 24)
+        Me.SerialComPortsComboBox.Size = New System.Drawing.Size(92, 21)
         Me.SerialComPortsComboBox.TabIndex = 11
         '
         'ConnectButton
         '
-        Me.ConnectButton.Location = New System.Drawing.Point(624, 533)
+        Me.ConnectButton.ForeColor = System.Drawing.Color.Black
+        Me.ConnectButton.Location = New System.Drawing.Point(163, 19)
+        Me.ConnectButton.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.ConnectButton.Name = "ConnectButton"
-        Me.ConnectButton.Size = New System.Drawing.Size(75, 23)
+        Me.ConnectButton.Size = New System.Drawing.Size(56, 23)
         Me.ConnectButton.TabIndex = 12
-        Me.ConnectButton.Text = "Connect"
+        Me.ConnectButton.Text = "C&onnect"
         Me.ConnectButton.UseVisualStyleBackColor = True
         '
         'RefreshButton
         '
-        Me.RefreshButton.Location = New System.Drawing.Point(543, 533)
+        Me.RefreshButton.ForeColor = System.Drawing.Color.Black
+        Me.RefreshButton.Location = New System.Drawing.Point(103, 19)
+        Me.RefreshButton.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.RefreshButton.Name = "RefreshButton"
-        Me.RefreshButton.Size = New System.Drawing.Size(75, 23)
+        Me.RefreshButton.Size = New System.Drawing.Size(56, 23)
         Me.RefreshButton.TabIndex = 13
-        Me.RefreshButton.Text = "Refresh"
+        Me.RefreshButton.Text = "&Refresh"
         Me.RefreshButton.UseVisualStyleBackColor = True
         '
         'Timer1
         '
         Me.Timer1.Interval = 15
         '
-        'Timer2
+        'GroupBox1
         '
-        Me.Timer2.Interval = 15
+        Me.GroupBox1.Anchor = System.Windows.Forms.AnchorStyles.Bottom
+        Me.GroupBox1.Controls.Add(Me.SerialComPortsComboBox)
+        Me.GroupBox1.Controls.Add(Me.RefreshButton)
+        Me.GroupBox1.Controls.Add(Me.ConnectButton)
+        Me.GroupBox1.ForeColor = System.Drawing.Color.White
+        Me.GroupBox1.Location = New System.Drawing.Point(304, 412)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Size = New System.Drawing.Size(224, 49)
+        Me.GroupBox1.TabIndex = 14
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "COM Port"
+        '
+        'RefreshToolStripMenuItem
+        '
+        Me.RefreshToolStripMenuItem.Name = "RefreshToolStripMenuItem"
+        Me.RefreshToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.RefreshToolStripMenuItem.Text = "&Refresh"
+        '
+        'ConnectToolStripMenuItem
+        '
+        Me.ConnectToolStripMenuItem.Name = "ConnectToolStripMenuItem"
+        Me.ConnectToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ConnectToolStripMenuItem.Text = "C&onnect"
+        '
+        'ConnectContextMenuButton
+        '
+        Me.ConnectContextMenuButton.Name = "ConnectContextMenuButton"
+        Me.ConnectContextMenuButton.Size = New System.Drawing.Size(180, 22)
+        Me.ConnectContextMenuButton.Text = "C&onnect"
+        '
+        'RefreshContextMenuButton
+        '
+        Me.RefreshContextMenuButton.Name = "RefreshContextMenuButton"
+        Me.RefreshContextMenuButton.Size = New System.Drawing.Size(180, 22)
+        Me.RefreshContextMenuButton.Text = "&Refresh"
         '
         'EtchOSketchForm
         '
         Me.AcceptButton = Me.WaveformsButton
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(8.0!, 16.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.BackColor = System.Drawing.Color.Red
         Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None
         Me.CancelButton = Me.ClearButton
-        Me.ClientSize = New System.Drawing.Size(816, 671)
+        Me.ClientSize = New System.Drawing.Size(612, 545)
         Me.ContextMenuStrip = Me.MainContextMenuStrip
-        Me.Controls.Add(Me.RefreshButton)
-        Me.Controls.Add(Me.ConnectButton)
-        Me.Controls.Add(Me.SerialComPortsComboBox)
-        Me.Controls.Add(Me.YLabel)
-        Me.Controls.Add(Me.XLabel)
+        Me.Controls.Add(Me.GroupBox1)
         Me.Controls.Add(Me.DrawGroupBox)
         Me.Controls.Add(Me.VerticalTrackBar)
         Me.Controls.Add(Me.HorizontalTrackBar)
         Me.Controls.Add(Me.DrawingPictureBox)
         Me.Controls.Add(Me.ButtonGroupBox)
         Me.Controls.Add(Me.TopMenuStrip)
-        Me.Margin = New System.Windows.Forms.Padding(4)
-        Me.MinimumSize = New System.Drawing.Size(795, 611)
+        Me.MinimumSize = New System.Drawing.Size(600, 504)
         Me.Name = "EtchOSketchForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Etch-O-Sketch"
@@ -459,6 +460,7 @@ Partial Class EtchOSketchForm
         CType(Me.VerticalTrackBar, System.ComponentModel.ISupportInitialize).EndInit()
         Me.DrawGroupBox.ResumeLayout(False)
         Me.DrawGroupBox.PerformLayout()
+        Me.GroupBox1.ResumeLayout(False)
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -496,12 +498,14 @@ Partial Class EtchOSketchForm
     Friend WithEvents SliderDrawRadioButton As RadioButton
     Friend WithEvents SerialDrawRadioButton As RadioButton
     Friend WithEvents DrawGroupBox As GroupBox
-    Friend WithEvents XLabel As Label
-    Friend WithEvents YLabel As Label
     Friend WithEvents SerialPort As IO.Ports.SerialPort
     Friend WithEvents SerialComPortsComboBox As ComboBox
     Friend WithEvents ConnectButton As Button
     Friend WithEvents RefreshButton As Button
     Friend WithEvents Timer1 As Timer
-    Friend WithEvents Timer2 As Timer
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents RefreshToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ConnectToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents ConnectContextMenuButton As ToolStripMenuItem
+    Friend WithEvents RefreshContextMenuButton As ToolStripMenuItem
 End Class

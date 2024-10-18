@@ -1,11 +1,13 @@
-﻿Option Explicit On
-Option Strict On
-'Alex Wheelock
-'RCET 0265
-'Spring 2024
-'Etch-O-Sketch
+﻿'Alex Wheelock
+'RCET 3371
+'Fall 2024
+'Etch-O-Sketch(Serial)
 'https://github.com/AlexWheelock/Etch-O-Sketch.git
+'NOTE: this assignment is found in the "SerialEtch-O-Sketch" branch, not in the master
 
+
+Option Explicit On
+Option Strict On
 Imports System.Media
 Imports System.Net.Security
 
@@ -18,6 +20,7 @@ Public Class EtchOSketchForm
         DrawingPictureBox.BackColor = Color.LightYellow
     End Sub
 
+    'Used to keep track of the draw mode that is currently selected
     Function SetDrawMode(Optional modeSelect As Integer = 0) As Integer
         Static mode As Integer
 
@@ -27,8 +30,6 @@ Public Class EtchOSketchForm
 
         Return mode
     End Function
-
-
 
     'Loads in the pen color constantly as the user moves their mouse across DrawingPictureBox
     Function ChooseColor(Optional newColor As Color = Nothing, Optional update As Boolean = False) As Color
@@ -51,6 +52,9 @@ Public Class EtchOSketchForm
         Static oldY As Double
         Dim mode As Integer = SetDrawMode()
 
+        'mode = 2 is for drawing using the sliders
+        'take the current value and scale them for the picture box
+        'Use the previous value if x or y = -1
         If mode = 2 Then
             If newX = -1 Then
                 newX = HorizontalTrackBar.Value * (DrawingPictureBox.Width / 100)
@@ -59,6 +63,9 @@ Public Class EtchOSketchForm
             If newY = -1 Then
                 newY = (100 - VerticalTrackBar.Value) * (DrawingPictureBox.Height / 100)
             End If
+
+            'mode = 3 is for drawing using the analog inputs from the Qy@ board
+            'Use the previous value if x or y = -1
         ElseIf mode = 3 Then
             If newX = -1 Then
                 newX = oldX
@@ -321,6 +328,8 @@ Public Class EtchOSketchForm
                " button. And when you wish to leave, click the " & Chr(34) & "Exit" & Chr(34) & " button.")
     End Sub
 
+    'Gets the available COM Ports of the users available system
+    'Populates a combobox to make it convenient for the user to use
     Sub GetComPorts()
         SerialComPortsComboBox.Text = ""
         SerialComPortsComboBox.Items.Clear()
@@ -330,30 +339,30 @@ Public Class EtchOSketchForm
         Next
     End Sub
 
+    'Read the analog input 1 from the Qy@ board
     Function Qy_ReadAnalogInputA1() As Byte()
         Dim data(0) As Byte
         data(0) = &B1010001
-        SerialPort.Write(data, 0, 1)
+
+        Try
+            SerialPort.Write(data, 0, 1)
+        Catch ex As Exception
+            Timer1.Enabled = False
+            SerialDrawRadioButton.Checked = False
+            SliderDrawRadioButton.Checked = False
+            MouseDrawRadioButton.Checked = True
+            MsgBox("Please select a valid COM port for serial drawing.")
+        End Try
+
         Return data
     End Function
 
+    'Read the analog input 2 from the Qy@ board
     Function Qy_ReadAnalogInputA2() As Byte()
         Dim data(0) As Byte
         data(0) = &B1010010
         SerialPort.Write(data, 0, 1)
         Return data
-    End Function
-
-    Function UpdateAnalogInputSelect(Optional analogInput As Integer = 0) As Integer
-        Static currentAnalog As Integer
-
-        If analogInput = 1 Then
-            currentAnalog = 1
-        ElseIf analogInput = 2 Then
-            currentAnalog = 2
-        End If
-
-        Return currentAnalog
     End Function
 
     'Event Handlers Below Here
@@ -369,18 +378,19 @@ Public Class EtchOSketchForm
             End If
         End If
     End Sub
+
+    'Allows the user to draw using the trackbar horizontally if mode = 2
     Private Sub HorizontalTrackBar_Scroll(sender As Object, e As EventArgs) Handles HorizontalTrackBar.Scroll
         If SetDrawMode() = 2 Then
             MouseDraw(-1, -1, True)
         End If
-        XLabel.Text = $"X: {HorizontalTrackBar.Value}"
     End Sub
 
+    'Allows the user to draw using the trackbar vertically if mode = 2
     Private Sub VerticalTrackBar_Scroll(sender As Object, e As EventArgs) Handles VerticalTrackBar.Scroll
         If SetDrawMode() = 2 Then
             MouseDraw(-1, -1, True)
         End If
-        YLabel.Text = $"Y: {VerticalTrackBar.Value}"
     End Sub
 
     'Closes the form
@@ -490,60 +500,114 @@ Public Class EtchOSketchForm
         About()
     End Sub
 
+    'Allows the user to draw using a the mouse
     Private Sub MouseDrawRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles MouseDrawRadioButton.CheckedChanged
         SetDrawMode(1)
         Timer1.Enabled = False
-        Timer2.Enabled = False
     End Sub
 
+    'Allows the user to draw using the trackbars
     Private Sub SliderDrawRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles SliderDrawRadioButton.CheckedChanged
         SetDrawMode(2)
         Timer1.Enabled = False
-        Timer2.Enabled = False
     End Sub
 
+    'Allows the user to draw using serial communication from the Qy@ board
     Private Sub SerialDrawRadioButton_CheckedChanged(sender As Object, e As EventArgs) Handles SerialDrawRadioButton.CheckedChanged
         SetDrawMode(3)
         Timer1.Enabled = True
     End Sub
 
+    'Event handler for the refresh button
     Private Sub RefreshButton_Click(sender As Object, e As EventArgs) Handles RefreshButton.Click
         GetComPorts()
     End Sub
 
+    'Event handler for the connect button
     Private Sub ConnectButton_Click(sender As Object, e As EventArgs) Handles ConnectButton.Click
         Console.WriteLine($"{SerialComPortsComboBox.SelectedItem}")
         Try
             SerialPort.PortName = $"{SerialComPortsComboBox.SelectedItem}"
             SerialPort.Open()
         Catch ex As Exception
-            MsgBox("error")
+            MsgBox("Invalid COM Port selected." & vbCrLf _
+                   & vbCrLf _
+                   & "Please choose another one, And then try again.")
         End Try
     End Sub
 
+    'Event handler for receiving and handling serial data from the Qy@ board
     Private Sub SerialPort_DataReceived(sender As Object, e As IO.Ports.SerialDataReceivedEventArgs) Handles SerialPort.DataReceived
-        Dim channel As Integer = UpdateAnalogInputSelect()
         Dim data(SerialPort.BytesToRead) As Byte
+        Static input As Integer
 
-        For i = 0 To SerialPort.BytesToRead
-            SerialPort.Read(data, 0, i)
-        Next
+        'Console.WriteLine(SerialPort.BytesToRead)
 
-        If SetDrawMode() = 3 Then
-            MouseDraw(data(0), data(1), True)
+        'read incoming data from the Qy@ board
+        SerialPort.Read(data, 0, SerialPort.BytesToRead)
+
+        'input = 0 means that analog input 1 is being read currently
+        'if so, then increment input, and read analog input 2
+        'take read data and scale it, and draw it if mode = 3
+        If input = 0 Then
+            'Console.WriteLine($"A1: {data(0)}")
+            If SetDrawMode() = 3 Then
+                MouseDraw((((data(0) - 80) / 1.73) * (DrawingPictureBox.Width / 100)), -1, True)
+            End If
+            Qy_ReadAnalogInputA2()
+            input = 1
+
+            'input = 1 means that analog input 2 is being read currently
+            'if so, then reset input
+            'take read data and scale it, and draw it if mode = 3
+        ElseIf input = 1 Then
+            'Console.WriteLine($"A2: {data(0)}")
+            If SetDrawMode() = 3 Then
+                MouseDraw(-1, (((data(0) - 2) / 2.51) * (DrawingPictureBox.Height / 100)), True)
+            End If
+            input = 0
         End If
-
     End Sub
 
+    'Starts reading data from the Qy@ board starting with analog input 1
+    'goes off every 15 ms
     Private Sub Timer1_Tick(sender As Object, e As EventArgs) Handles Timer1.Tick
         Qy_ReadAnalogInputA1()
-        Qy_ReadAnalogInputA2()
     End Sub
 
-    Private Sub Timer2_Tick(sender As Object, e As EventArgs) Handles Timer2.Tick
-        Qy_ReadAnalogInputA2()
-        UpdateAnalogInputSelect(2)
-        Timer1.Enabled = True
-        Timer2.Enabled = False
+    'Event handler for the connect button in the context menu strip
+    Private Sub ConnectContextMenuButton_Click(sender As Object, e As EventArgs) Handles ConnectContextMenuButton.Click
+        Console.WriteLine($"{SerialComPortsComboBox.SelectedItem}")
+        Try
+            SerialPort.PortName = $"{SerialComPortsComboBox.SelectedItem}"
+            SerialPort.Open()
+        Catch ex As Exception
+            MsgBox("Invalid COM Port selected." & vbCrLf _
+                   & vbCrLf _
+                   & "Please choose another one, And then try again.")
+        End Try
+    End Sub
+
+    'Event handler for the refresh button in the context menu strip
+    Private Sub RefreshContextMenuButton_Click(sender As Object, e As EventArgs) Handles RefreshContextMenuButton.Click
+        GetComPorts()
+    End Sub
+
+    'Event handler for the refresh button in the tool strip menu
+    Private Sub RefreshToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles RefreshToolStripMenuItem.Click
+        GetComPorts()
+    End Sub
+
+    'Event handler for the connect button in the tool strip menu
+    Private Sub ConnectToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles ConnectToolStripMenuItem.Click
+        Console.WriteLine($"{SerialComPortsComboBox.SelectedItem}")
+        Try
+            SerialPort.PortName = $"{SerialComPortsComboBox.SelectedItem}"
+            SerialPort.Open()
+        Catch ex As Exception
+            MsgBox("Invalid COM Port selected." & vbCrLf _
+                   & vbCrLf _
+                   & "Please choose another one, And then try again.")
+        End Try
     End Sub
 End Class
