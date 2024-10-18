@@ -341,7 +341,7 @@ Partial Class EtchOSketchForm
         '
         'DrawGroupBox
         '
-        Me.DrawGroupBox.Anchor = System.Windows.Forms.AnchorStyles.None
+        Me.DrawGroupBox.Anchor = System.Windows.Forms.AnchorStyles.Bottom
         Me.DrawGroupBox.Controls.Add(Me.MouseDrawRadioButton)
         Me.DrawGroupBox.Controls.Add(Me.SerialDrawRadioButton)
         Me.DrawGroupBox.Controls.Add(Me.SliderDrawRadioButton)
